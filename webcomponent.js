@@ -4,7 +4,7 @@
    let shadowRoot;
     
     const flipcardjs = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js";
-   
+    //const cssScript="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     
     console.log("1-Step");
     
@@ -26,6 +26,23 @@
 		document.head.appendChild(script)
 	  });
 	}
+  function loadCssScript(href)
+  {
+  console.log("Step-9");
+    
+	  return new Promise(function(resolve, reject) 
+    {
+    let stylesheet = document.createElement('link')
+    stylesheet.setAttribute('rel', 'stylesheet')
+    stylesheet.setAttribute('href', href)
+    //documentHead().appendChild(stylesheet)
+
+		stylesheet.onload = () => {console.log("Load: " + stylesheet); resolve(stylesheet);}
+		stylesheet.onerror = () => reject(new Error(`Script load error for ${href}`));
+
+		document.head.appendChild(stylesheet)
+	  });
+  }
     
     
     console.log("Step-2");
@@ -35,9 +52,9 @@
   <style>
 .flip-card {
   
-  width: 260px;
+  width: 320px;
   border-radius: 5px;
-  height:400px;
+  height:480px;
   background-color: transparent;
 }
 .flip-card-inner {
@@ -81,6 +98,30 @@ img {
 }
 
 
+a {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+}
+
+a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.previous {
+  background-color: #f1f1f1;
+  color: black;
+}
+
+.next {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.round {
+  border-radius: 50%;
+}
 
 
 
@@ -113,19 +154,25 @@ img {
 
 </div><!-- flip card front -->
 <div class="flip-card-back">
-<i class="fa fa-chevron-circle-left" onclick="returnn()" style="font-size:24px;margin-left:230px;margin-top:5px"></i>
+
+<a href="#" class="previous round" id="previous" style="float:right;margin-top:20px;margin-right:10px">&#8249;</a>
 <div style="margin-left:20px;margin-top:20px;text-decoration: underline green;font-size: 30px;font-weight: bold;">Monthly Profit
  </div>
- <div style="margin-top:-1px;margin-left:20px;font-size: 20px;font-weight: bold;">
- <p id="month">
  
- </p>
+ <div style="margin-left:20px;font-size: 10px;font-weight: bold;margin-top:20px">
+ <textbox style="font-size:8px;">Current Month</textbox></br>
+ <textbox id="month" style="font-size:20px;margin-top:10px">
+ </textbox>
  </div>
- <div style="margin-top:-1px;margin-left:20px;font-size: 20px;font-weight: bold;">
- <p id="value">
+ <div style="margin-left:20px;font-size: 10px;font-weight: bold;margin-top:10px">
+ <textbox>Profit
+ </textbox>
+ <textbox id="value">
+ </textbox>
  
- </p>
  </div>
+ 
+ <canvas id="myChartBack" width="20" height="20" margin-top:"40px"></canvas>
 </div><!-- flip card back -->
 
 </div><!-- flip card inner div-->
@@ -147,7 +194,7 @@ img {
     
    
   
-  customElements.define('com-sap-sample-helloworld9', class HelloWorld extends HTMLElement     {
+  customElements.define('com-sap-sample-helloworld5', class HelloWorld extends HTMLElement     {
   
    constructor() {
 			super(); 
@@ -180,7 +227,8 @@ img {
 					try
           {
 						console.log("Step-8");
-						await loadScript(flipcardjs);				
+						await loadScript(flipcardjs);		
+           // await loadCssScript(cssScript);
 						
             
 					} 
@@ -257,12 +305,14 @@ img {
 
       redraw()
         {
+        
+        
         let myChart=this.shadowRoot.getElementById('myChart');
        console.log("Step-11");
         
        
  var data = {
-    labels: ["January", "February", "March", "April", "May", "June", "July","August","Sep","Oct","Nov","Dec"],
+    labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"],
     datasets: [
         {
             label: "Sales Per Month",
@@ -313,8 +363,8 @@ myChart.onclick = function(evt) {
 
         var url = "http://example.com/?label=" + label + "&value=" + value;
         
-        alert(url);
-        alert(this);
+        //alert(url);
+        
        shadowRoot.getElementById("month").innerHTML=label;
        shadowRoot.getElementById("value").innerHTML=value;
        shadowRoot.getElementById("flip-card-inner").style.transform = "rotateY(180deg)"; 
@@ -322,13 +372,55 @@ myChart.onclick = function(evt) {
       }
     };
         
-   
-
+        
+     var  previousButton=this.shadowRoot.getElementById('previous');
+     previousButton.onclick = function(evt) {
+     shadowRoot.getElementById("flip-card-inner").style.transform =      "rotateY(360deg)"; 
+     
+     }
+        
+   let myChartBack=this.shadowRoot.getElementById('myChartBack');
+   var data2 = {
+    labels: ["2020", "2019", "2018", "2017", "2016", "2015", "2014","2013","2012","2011"],
+    datasets: [
+        {
+            label: "Sales of Month for last 10 years",
+            backgroundColor: "rgba(255,99,132,0.2)",
+            borderColor: "rgba(255,99,132,1)",
+            borderWidth: 1,
+            hoverBackgroundColor: "rgba(255,99,132,0.4)",
+            hoverBorderColor: "rgba(255,99,132,1)",
+            data: [25, 59, 30, 81, 56, 55, 40,70,34,65,23,65],
         }
-      returnn()
-     {
-     this.shadowRoot.getElementById("flip-card-inner").style.transform = "rotateY(360deg)"; 
-    }
+    ]
+};
+var option2 = {
+animation: {
+				duration:5000
+},
+ scales:
+        {
+            yAxes: [{
+                gridLines : {
+                    drawOnChartArea: false
+                }
+            }],
+            xAxes: [{
+                gridLines : {
+                    drawOnChartArea: false
+                }
+            }],
+        }
+
+};
+
+
+var myBarChart2 = Chart.Bar(myChartBack,{
+	data:data2,
+  options:option2
+});
+}
+       
 
         
         
@@ -336,5 +428,10 @@ myChart.onclick = function(evt) {
     
     });
     
+  
+    
+   
+    
    
 })();
+
