@@ -147,7 +147,7 @@ img {
     
    
   
-  customElements.define('com-sap-sample-helloworld5', class HelloWorld extends HTMLElement     {
+  customElements.define('com-sap-sample-helloworld9', class HelloWorld extends HTMLElement     {
   
    constructor() {
 			super(); 
