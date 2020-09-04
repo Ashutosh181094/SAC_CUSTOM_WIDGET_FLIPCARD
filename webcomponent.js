@@ -1,6 +1,7 @@
 (function()  {
     
    let count=0;
+   var flipCounter=0;
    let shadowRoot;
     
     const flipcardjs = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js";
@@ -119,32 +120,123 @@ a:hover {
   color: white;
 }
 
-.round {
+.rounda {
   border-radius: 50%;
 }
 
 
 
+
+
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 24px;
+}
+
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color:#808080;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 15px;
+  width: 15px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #000000;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(40px);
+  -ms-transform: translateX(38px);
+  transform: translateX(38px);
+}
+
+/*------ ADDED CSS ---------*/
+.on
+{
+  display: none;
+}
+
+.on, .off
+{
+  color: white;
+  position: absolute;
+  transform: translate(-50%,-50%);
+  top: 50%;
+  left: 50%;
+  font-size: 10px;
+  font-family: Verdana, sans-serif;
+}
+
+input:checked+ .slider .on
+{display: block;}
+
+input:checked + .slider .off
+{display: none;}
+
+/*--------- END --------*/
+
+/* Rounded sliders */
+
+
+
+
+
+
 </style>
   
-  
-  
+ 
   <div class="flip-card">
 
+
+  
 <div class="flip-card-inner" id="flip-card-inner">
 
+
+ 
 <div class="flip-card-front">
 
 
 
+<label class="switch" style="margin-top:110px;float:right;margin-right:10px"><input type="checkbox" id="togBtn"><div class="slider round"><!--ADDED HTML --><span class="on">abs</span><span class="off">%</span><!--END--></div></label>
+
 
 
  <div style="padding:20px 20px;text-decoration: underline green;font-size: 30px;font-weight: bold;">Profit
+ 
  </div>
+  <textbox id="comparisonvalue" style="float:right;margin-right:-35px;margin-top:18px;step=".01"></textbox>
  <textbox style="margin-left:20px;font-size:8px">Current Month</textbox>
-  <p style="margin-top:2px;margin-left:23px">2345</p>
+  <p style="margin-top:2px;margin-left:23px">632500</p>
+ 
+   
    <p style="margin-top:-10px;margin-left:23px;font-size:8px">Last Month</p>
-    <p style="margin-top:2px;margin-left:23px">2345</p>
+    <p style="margin-top:2px;margin-left:23px">639600</p>
   
 <div style="margin-top:10px;margin-left:20px;margin-bottom:40px" id="bar">
 
@@ -155,7 +247,7 @@ a:hover {
 </div><!-- flip card front -->
 <div class="flip-card-back">
 
-<a href="#" class="previous round" id="previous" style="float:right;margin-top:20px;margin-right:10px">&#8249;</a>
+<a href="#" class="previous rounda" id="previous" style="float:right;margin-top:20px;margin-right:10px">&#8249;</a>
 <div style="margin-left:20px;margin-top:20px;text-decoration: underline green;font-size: 30px;font-weight: bold;">Monthly Profit
  </div>
  
@@ -194,7 +286,7 @@ a:hover {
     
    
   
-  customElements.define('com-sap-sample-helloworld5', class HelloWorld extends HTMLElement     {
+  customElements.define('com-sap-sample-helloworld9', class HelloWorld extends HTMLElement     {
   
    constructor() {
 			super(); 
@@ -246,7 +338,20 @@ a:hover {
         
         console.log("Step-6");
         LoadLibs(this);
-        }
+        
+        let togBtn=this.shadowRoot.getElementById('togBtn');
+        var percentage=((632500-639600)/639600)*100;
+         shadowRoot.getElementById("comparisonvalue").innerHTML =percentage.toFixed(2);
+         var absolute=(632500-639600);
+         if(absolute<0)
+        {
+        shadowRoot.getElementById("comparisonvalue").style.color="red";
+         }
+       else
+       {
+       shadowRoot.getElementById("comparisonvalue").style.color="green";
+       }
+      }
         
        
        
@@ -419,19 +524,43 @@ var myBarChart2 = Chart.Bar(myChartBack,{
 	data:data2,
   options:option2
 });
-}
-       
 
-        
-        
-    
-    
-    });
-    
-  
-    
-   
-    
-   
+let togBtn=this.shadowRoot.getElementById('togBtn');
+togBtn.onclick = function(evt) {
+if(flipCounter==1)
+{
+flipCounter=0;
+var absolute=(632500-639600);
+var percentage=((632500-639600)/639600)*100;
+shadowRoot.getElementById("comparisonvalue").innerHTML =percentage.toFixed(2);
+if(absolute<0)
+{
+shadowRoot.getElementById("comparisonvalue").style.color="red";
+}
+else
+{
+shadowRoot.getElementById("comparisonvalue").style.color="green";
+}
+     
+}
+else
+if(flipCounter==0)
+{
+flipCounter=1;
+var absolute=(632500-639600);
+shadowRoot.getElementById("comparisonvalue").innerHTML =absolute;
+if(absolute<0)
+{
+shadowRoot.getElementById("comparisonvalue").style.color="red";
+}
+else
+{
+shadowRoot.getElementById("comparisonvalue").style.color="green";
+}
+}
+
+}
+}
+});
 })();
 
