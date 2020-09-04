@@ -1,6 +1,7 @@
 (function()  {
     
    let count=0;
+   var flipCounter=0;
    let shadowRoot;
     
     const flipcardjs = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js";
@@ -144,7 +145,7 @@ a:hover {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color:#808080;
+  background-color:#000000;
   -webkit-transition: .4s;
   transition: .4s;
 }
@@ -229,13 +230,13 @@ input:checked + .slider .off
  <div style="padding:20px 20px;text-decoration: underline green;font-size: 30px;font-weight: bold;">Profit
  
  </div>
-  <textbox style="float:right;margin-right:-35px;margin-top:18px;">-1.11</textbox>
+  <textbox id="comparisonvalue" style="float:right;margin-right:-35px;margin-top:18px;step=".01"></textbox>
  <textbox style="margin-left:20px;font-size:8px">Current Month</textbox>
-  <p style="margin-top:2px;margin-left:23px">2345</p>
+  <p style="margin-top:2px;margin-left:23px">632500</p>
  
    
    <p style="margin-top:-10px;margin-left:23px;font-size:8px">Last Month</p>
-    <p style="margin-top:2px;margin-left:23px">2345</p>
+    <p style="margin-top:2px;margin-left:23px">639600</p>
   
 <div style="margin-top:10px;margin-left:20px;margin-bottom:40px" id="bar">
 
@@ -285,7 +286,7 @@ input:checked + .slider .off
     
    
   
-  customElements.define('com-sap-sample-helloworld5', class HelloWorld extends HTMLElement     {
+  customElements.define('com-sap-sample-helloworld9', class HelloWorld extends HTMLElement     {
   
    constructor() {
 			super(); 
@@ -337,7 +338,20 @@ input:checked + .slider .off
         
         console.log("Step-6");
         LoadLibs(this);
-        }
+        
+        let togBtn=this.shadowRoot.getElementById('togBtn');
+        var percentage=((632500-639600)/639600)*100;
+         shadowRoot.getElementById("comparisonvalue").innerHTML =percentage.toFixed(2);
+         var absolute=(632500-639600);
+         if(absolute<0)
+        {
+        shadowRoot.getElementById("comparisonvalue").style.color="red";
+         }
+       else
+       {
+       shadowRoot.getElementById("comparisonvalue").style.color="green";
+       }
+      }
         
        
        
@@ -406,13 +420,14 @@ input:checked + .slider .off
     labels: ["January", "February", "March", "April", "May", "June", "July","August","September","October","November","December"],
     datasets: [
         {
-            label: "Sales Per Month",
-            backgroundColor: "rgba(255,99,132,0.2)",
-            borderColor: "rgba(255,99,132,1)",
+            label: "Profit Per Month",
+            backgroundColor: "rgba(137, 196, 244, 1)",
+            borderColor: "rgba(44, 130, 201, 1)",
             borderWidth: 1,
             hoverBackgroundColor: "rgba(255,99,132,0.4)",
             hoverBorderColor: "rgba(255,99,132,1)",
-            data: [65, 59, 30, 81, 56, 55, 40,70,34,65,23,65],
+            data:  [200000, 80000, 453455, 125430,204000 , 240000, 360012,639600,632500,720021,50000,400000],
+            
         }
     ]
 };
@@ -475,13 +490,13 @@ myChart.onclick = function(evt) {
     labels: ["2020", "2019", "2018", "2017", "2016", "2015", "2014","2013","2012","2011"],
     datasets: [
         {
-            label: "Sales of Month for last 10 years",
-            backgroundColor: "rgba(255,99,132,0.2)",
-            borderColor: "rgba(255,99,132,1)",
+            label: "Profit Month for last 10 years",
+            backgroundColor: "rgba(137, 196, 244, 1)",
+            borderColor: "rgba(44, 130, 201, 1)",
             borderWidth: 1,
-            hoverBackgroundColor: "rgba(255,99,132,0.4)",
+            hoverBackgroundColor: "rgba(137, 196, 244, 1)",
             hoverBorderColor: "rgba(255,99,132,1)",
-            data: [25, 59, 30, 81, 56, 55, 40,70,34,65,23,65],
+            data: [200000, 80000, 453455, 125430,204000 , 240000, 360012,639600,632500,720021],
         }
     ]
 };
@@ -510,19 +525,43 @@ var myBarChart2 = Chart.Bar(myChartBack,{
 	data:data2,
   options:option2
 });
-}
-       
 
-        
-        
-    
-    
-    });
-    
-  
-    
-   
-    
-   
+let togBtn=this.shadowRoot.getElementById('togBtn');
+togBtn.onclick = function(evt) {
+if(flipCounter==1)
+{
+flipCounter=0;
+var absolute=(632500-639600);
+var percentage=((632500-639600)/639600)*100;
+shadowRoot.getElementById("comparisonvalue").innerHTML =percentage.toFixed(2);
+if(absolute<0)
+{
+shadowRoot.getElementById("comparisonvalue").style.color="red";
+}
+else
+{
+shadowRoot.getElementById("comparisonvalue").style.color="green";
+}
+     
+}
+else
+if(flipCounter==0)
+{
+flipCounter=1;
+var absolute=(632500-639600);
+shadowRoot.getElementById("comparisonvalue").innerHTML =absolute;
+if(absolute<0)
+{
+shadowRoot.getElementById("comparisonvalue").style.color="red";
+}
+else
+{
+shadowRoot.getElementById("comparisonvalue").style.color="green";
+}
+}
+
+}
+}
+});
 })();
 
