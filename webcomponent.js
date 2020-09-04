@@ -1,7 +1,6 @@
 (function()  {
     
    let count=0;
-   var flipCounter=0;
    let shadowRoot;
     
     const flipcardjs = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js";
@@ -230,13 +229,13 @@ input:checked + .slider .off
  <div style="padding:20px 20px;text-decoration: underline green;font-size: 30px;font-weight: bold;">Profit
  
  </div>
-  <textbox id="comparisonvalue" style="float:right;margin-right:-35px;margin-top:18px;step=".01"></textbox>
+  <textbox style="float:right;margin-right:-35px;margin-top:18px;">-1.11</textbox>
  <textbox style="margin-left:20px;font-size:8px">Current Month</textbox>
-  <p style="margin-top:2px;margin-left:23px">632500</p>
+  <p style="margin-top:2px;margin-left:23px">2345</p>
  
    
    <p style="margin-top:-10px;margin-left:23px;font-size:8px">Last Month</p>
-    <p style="margin-top:2px;margin-left:23px">639600</p>
+    <p style="margin-top:2px;margin-left:23px">2345</p>
   
 <div style="margin-top:10px;margin-left:20px;margin-bottom:40px" id="bar">
 
@@ -286,7 +285,7 @@ input:checked + .slider .off
     
    
   
-  customElements.define('com-sap-sample-helloworld9', class HelloWorld extends HTMLElement     {
+  customElements.define('com-sap-sample-helloworld5', class HelloWorld extends HTMLElement     {
   
    constructor() {
 			super(); 
@@ -338,20 +337,7 @@ input:checked + .slider .off
         
         console.log("Step-6");
         LoadLibs(this);
-        
-        let togBtn=this.shadowRoot.getElementById('togBtn');
-        var percentage=((632500-639600)/639600)*100;
-         shadowRoot.getElementById("comparisonvalue").innerHTML =percentage.toFixed(2);
-         var absolute=(632500-639600);
-         if(absolute<0)
-        {
-        shadowRoot.getElementById("comparisonvalue").style.color="red";
-         }
-       else
-       {
-       shadowRoot.getElementById("comparisonvalue").style.color="green";
-       }
-      }
+        }
         
        
        
@@ -524,43 +510,19 @@ var myBarChart2 = Chart.Bar(myChartBack,{
 	data:data2,
   options:option2
 });
+}
+       
 
-let togBtn=this.shadowRoot.getElementById('togBtn');
-togBtn.onclick = function(evt) {
-if(flipCounter==1)
-{
-flipCounter=0;
-var absolute=(632500-639600);
-var percentage=((632500-639600)/639600)*100;
-shadowRoot.getElementById("comparisonvalue").innerHTML =percentage.toFixed(2);
-if(absolute<0)
-{
-shadowRoot.getElementById("comparisonvalue").style.color="red";
-}
-else
-{
-shadowRoot.getElementById("comparisonvalue").style.color="green";
-}
-     
-}
-else
-if(flipCounter==0)
-{
-flipCounter=1;
-var absolute=(632500-639600);
-shadowRoot.getElementById("comparisonvalue").innerHTML =absolute;
-if(absolute<0)
-{
-shadowRoot.getElementById("comparisonvalue").style.color="red";
-}
-else
-{
-shadowRoot.getElementById("comparisonvalue").style.color="green";
-}
-}
-
-}
-}
-});
+        
+        
+    
+    
+    });
+    
+  
+    
+   
+    
+   
 })();
 
