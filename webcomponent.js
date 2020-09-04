@@ -247,7 +247,7 @@ input:checked + .slider .off
 </div><!-- flip card front -->
 <div class="flip-card-back">
 
-<a href="#" class="previous rounda" id="previous" style="float:right;margin-top:20px;margin-right:10px">&#8249;</a>
+<a class="previous rounda" id="previous" style="float:right;margin-top:20px;margin-right:10px">&#8249;</a>
 <div style="margin-left:20px;margin-top:20px;text-decoration: underline green;font-size: 30px;font-weight: bold;">Monthly Profit
  </div>
  
@@ -481,7 +481,7 @@ myChart.onclick = function(evt) {
         
      var  previousButton=this.shadowRoot.getElementById('previous');
      previousButton.onclick = function(evt) {
-     shadowRoot.getElementById("flip-card-inner").style.transform =      "rotateY(360deg)"; 
+     shadowRoot.getElementById("flip-card-inner").style.transform ="rotateY(360deg)"; 
      
      }
         
