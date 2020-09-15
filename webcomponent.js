@@ -413,6 +413,7 @@ input:checked + .slider .off
         
         
         let myChart=this.shadowRoot.getElementById('myChart');
+	 myChart.innerHTML=""
        console.log("Step-11");
         
        
