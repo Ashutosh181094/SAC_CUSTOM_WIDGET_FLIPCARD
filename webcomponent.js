@@ -3,6 +3,9 @@
    let count=0;
    var flipCounter=0;
    let shadowRoot;
+   var myBarChart;
+   var myBarChart2;
+   var myChart;
     
     const flipcardjs = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js";
     //const cssScript="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -66,8 +69,6 @@
   transform-style: preserve-3d;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
-
-
 .flip-card-front, .flip-card-back {
   position: absolute;
   width: 100%;
@@ -75,12 +76,10 @@
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
-
 .flip-card-front {
   
   color: black;
 }
-
 .flip-card-back {
   background-color: white;
   color: black;
@@ -89,55 +88,39 @@
 .flip-card:hover {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
-
 img {
   border-radius: 5px 5px 0 0;
 }
-
 .container {
   padding: 2px 16px;
 }
-
-
 a {
   text-decoration: none;
   display: inline-block;
   padding: 8px 16px;
 }
-
 a:hover {
   background-color: #ddd;
   color: black;
 }
-
 .previous {
   background-color: #f1f1f1;
   color: black;
 }
-
 .next {
   background-color: #4CAF50;
   color: white;
 }
-
 .rounda {
   border-radius: 50%;
 }
-
-
-
-
-
-
 .switch {
   position: relative;
   display: inline-block;
   width: 60px;
   height: 24px;
 }
-
 .switch input {display:none;}
-
 .slider {
   position: absolute;
   cursor: pointer;
@@ -149,7 +132,6 @@ a:hover {
   -webkit-transition: .4s;
   transition: .4s;
 }
-
 .slider:before {
   position: absolute;
   content: "";
@@ -161,27 +143,22 @@ a:hover {
   -webkit-transition: .4s;
   transition: .4s;
 }
-
 input:checked + .slider {
   background-color: #000000;
 }
-
 input:focus + .slider {
   box-shadow: 0 0 1px #2196F3;
 }
-
 input:checked + .slider:before {
   -webkit-transform: translateX(40px);
   -ms-transform: translateX(38px);
   transform: translateX(38px);
 }
-
 /*------ ADDED CSS ---------*/
 .on
 {
   display: none;
 }
-
 .on, .off
 {
   color: white;
@@ -192,41 +169,21 @@ input:checked + .slider:before {
   font-size: 10px;
   font-family: Verdana, sans-serif;
 }
-
 input:checked+ .slider .on
 {display: block;}
-
 input:checked + .slider .off
 {display: none;}
-
 /*--------- END --------*/
-
 /* Rounded sliders */
-
-
-
-
-
-
 </style>
   
  
   <div class="flip-card">
-
-
   
 <div class="flip-card-inner" id="flip-card-inner">
-
-
  
 <div class="flip-card-front">
-
-
-
 <label class="switch" style="margin-top:110px;float:right;margin-right:10px"><input type="checkbox" id="togBtn"><div class="slider round"><!--ADDED HTML --><span class="on">abs</span><span class="off">%</span><!--END--></div></label>
-
-
-
  <div style="padding:20px 20px;text-decoration: underline green;font-size: 30px;font-weight: bold;">Profit
  
  </div>
@@ -239,14 +196,10 @@ input:checked + .slider .off
     <p style="margin-top:2px;margin-left:23px">639600</p>
   
 <div style="margin-top:10px;margin-left:20px;margin-bottom:40px" id="bar">
-
 <canvas id="myChart" width="20" height="20"></canvas>
-
 </div>
-
 </div><!-- flip card front -->
 <div class="flip-card-back">
-
 <a class="previous rounda" id="previous" style="float:right;margin-top:20px;margin-right:10px">&#8249;</a>
 <div style="margin-left:20px;margin-top:20px;text-decoration: underline green;font-size: 30px;font-weight: bold;">Monthly Profit
  </div>
@@ -266,12 +219,8 @@ input:checked + .slider .off
  
  <canvas id="myChartBack" width="20" height="20" margin-top:"40px"></canvas>
 </div><!-- flip card back -->
-
 </div><!-- flip card inner div-->
-
-
 </div><!-- Main flip card element div-->
-
   
   
   
@@ -412,8 +361,10 @@ input:checked + .slider .off
         {
         
         
-        let myChart=this.shadowRoot.getElementById('myChart');
-	 myChart.innerHTML=""
+         myChart=this.shadowRoot.getElementById('myChart');
+        
+       
+        
        console.log("Step-11");
         
        
@@ -453,10 +404,13 @@ animation: {
 };
 
 
-var myBarChart = Chart.Bar(myChart,{
+myBarChart=null;
+myBarChart2=null;
+myBarChart = Chart.Bar(myChart,{
 	data:data,
   options:option
 });
+
 
 myChart.onclick = function(evt) {
       var activePoints = myBarChart.getElementsAtEvent(evt);
@@ -522,7 +476,7 @@ animation: {
 };
 
 
-var myBarChart2 = Chart.Bar(myChartBack,{
+myBarChart2 = Chart.Bar(myChartBack,{
 	data:data2,
   options:option2
 });
@@ -565,4 +519,3 @@ shadowRoot.getElementById("comparisonvalue").style.color="green";
 }
 });
 })();
-
